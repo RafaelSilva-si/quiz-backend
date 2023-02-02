@@ -2,12 +2,12 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { QuizService } from './quiz.service';
 import { Quiz } from './entities/quiz.entity';
 
-@Controller('quiz')
+@Controller('questions')
 export class QuizController {
   constructor(private readonly quizService: QuizService) {}
 
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
+  @Get(':quizId')
+  async findOne(@Param('quizId') id: string) {
     let response = await this.quizService.findAll(+id);
     response = response.data.map((quiz: Quiz) => ({
       ...quiz,
