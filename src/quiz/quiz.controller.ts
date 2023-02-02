@@ -1,12 +1,23 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { QuizService } from './quiz.service';
+import { Quiz } from './entities/quiz.entity';
 
 @Controller('quiz')
 export class QuizController {
   constructor(private readonly quizService: QuizService) {}
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.quizService.findAll(+id);
+  async findOne(@Param('id') id: string) {
+    let response = await this.quizService.findAll(+id);
+    response = response.data.map((quiz: Quiz) => ({
+      ...quiz,
+      category: decodeURIComponent(quiz.category),
+      question: decodeURIComponent(quiz.question),
+      correct_answer: decodeURIComponent(quiz.correct_answer),
+      incorrect_answers: quiz.incorrect_answers.map((ans) =>
+        decodeURIComponent(ans),
+      ),
+    }));
+    return response;
   }
 }
