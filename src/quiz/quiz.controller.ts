@@ -15,7 +15,7 @@ export class QuizController {
       category: decodeURIComponent(quiz.category),
       question: decodeURIComponent(quiz.question),
       correct_answer: decodeURIComponent(quiz.correct_answer),
-      incorrect_answers: shuffle(
+      answers: shuffle(
         quiz.incorrect_answers
           .map((ans) => decodeURIComponent(ans))
           .concat(decodeURIComponent(quiz.correct_answer)),
